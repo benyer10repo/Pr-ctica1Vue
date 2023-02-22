@@ -56,6 +56,13 @@
                 padding: 10px; 
             }
         </style>
+
+
+        <!-- INTEGRANTES -->
+            <!-- REYNALDO CHICCHI LLANOS -->
+            <!-- IVAN CHAVEZ ROQUE -->
+
+
 </head>
 
 <body>
@@ -78,7 +85,7 @@
             </div>
         </div>
     </nav>
-
+    
 
     <div class="container">
 
@@ -95,17 +102,20 @@
                     Precio: {{producto.precio}} BOB
                 </div>
                 <h5>Color</h5>
-                <div v-for="n in producto.colores" class="col-12 col-sm-12  col-md-12" style="display: inline;">
+                <div v-for="(n,j) in producto.colores" class="col-12 col-sm-12  col-md-12" style="display: inline;">
                    
-                    <div class="color-box clic"  :style="{ 'background': n }"></div>
+                    <input type="radio" class="btn-check " name="options" :id="j+1" autocomplete="off" v-bind:value="n">
+                    <label class="btn color-box clic" :for="j+1"  :style="{ 'background': n }" ></label>
+                    
                 
                 </div>
                 <h5>Cantidad</h5>
                 <div class="quantity">
-                    <button>-</button> <div>1</div> <button>+</button>
+                    <button v-on:click="counter -=1">-</button> <div id="ca">{{counter}}</div> <button v-on:click="counter +=1">+</button>
                 </div>
                 <div class="buy-box">
-                    <button type="button" class="btn btn-primary">Comprar</button>
+                    <button v-if="comparar(counter)"   v-on:click="comprar(producto.id,counter)" type="button" class="btn btn-primary">Comprar</button>
+                    <button v-else="comparar(counter)" type="button" class="btn btn-primary" disabled>Comprar</button>
                 </div>
                 
             </div>
@@ -206,12 +216,38 @@
                     precio:"1800",
                     colores: ["teal", "blue", "slategrey", "navy"]
                 }
-    ]
+    ],
+    counter:0
 
 
 
 
 
+
+  },
+  // definir métodos bajo el objeto `methods`
+  methods: {
+    comparar: function ()
+    {
+        return this.counter >0;
+    },
+    color: function (n)
+    {
+        var n = '';
+        var ele = document.getElementsByName('options');
+        for(i = 0; i < ele.length; i++) {
+            if(ele[i].checked)
+                n = ele[i].value;
+        }
+        
+    return n;
+    },
+    comprar: function (id,counter,n) {
+      
+      alert('pedidos\n{\nid: ' + this.producto.id + '\ncantidad: ' + this.counter + '\ncolor: '+ this.color(n)  +'\n}')
+      
+      
+    }
   }
 })
 </script>
